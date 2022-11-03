@@ -1,4 +1,4 @@
-package com.agalobr.superheroes2022.data.work
+package com.agalobr.superheroes2022.data.work.remote
 
 import com.agalobr.superheroes2022.domain.Work
 

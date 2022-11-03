@@ -1,9 +1,11 @@
 package com.agalobr.superheroes2022.data
 
-import com.agalobr.superheroes2022.data.biography.BiographyApiModel
-import com.agalobr.superheroes2022.data.superheroe.SuperHeroeApiModel
-import com.agalobr.superheroes2022.data.work.WorkApiModel
+import com.agalobr.superheroes2022.data.biography.remote.BiographyApiModel
+import com.agalobr.superheroes2022.data.connections.remote.ConnectionsApiModel
+import com.agalobr.superheroes2022.data.superheroe.remote.SuperHeroApiModel
+import com.agalobr.superheroes2022.data.work.remote.WorkApiModel
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * Retrofit
@@ -21,11 +23,12 @@ class ApiClient {
 
     fun createRetrofitClient() = Retrofit.Builder()
         .baseUrl(baseEndPoints)
+        .addConverterFactory(GsonConverterFactory.create())
         .build();
 
     fun buildApiEndPoints() = createRetrofitClient().create(ApiServices::class.java)
 
-    fun getSuperHeroes(): List<SuperHeroeApiModel> {
+    fun getSuperHeroes(): List<SuperHeroApiModel> {
         val superHeroes = apiServices.getSuperHeroesFeed()
         val response = superHeroes.execute()
         if (response.isSuccessful) {
@@ -34,8 +37,13 @@ class ApiClient {
         return emptyList()
     }
 
-    fun getBiography(superHeroeId: Int): BiographyApiModel? {
-        val call = apiServices.getBiography(superHeroeId).execute()
+    fun getSuperHero(superHeroId: Int): SuperHeroApiModel? {
+        val call = apiServices.getSuperHero(superHeroId).execute()
+        return call.body()
+    }
+
+    fun getBiography(superHeroId: Int): BiographyApiModel? {
+        val call = apiServices.getBiography(superHeroId).execute()
         return if (call.isSuccessful) {
             call.body()
         } else {
@@ -43,8 +51,18 @@ class ApiClient {
         }
     }
 
-    fun getWork(superHeroeId: Int): WorkApiModel? {
-        val call = apiServices.getWork(superHeroeId).execute()
+    fun getWork(superHeroId: Int): WorkApiModel? {
+        val call = apiServices.getWork(superHeroId).execute()
+        return call.body()
+    }
+
+    fun getConnections(superHeroId: Int): ConnectionsApiModel? {
+        val call = apiServices.getConnections(superHeroId).execute()
+        return call.body()
+    }
+
+    fun getPowerStats(superHeroId: Int): PowerStatsApiModel? {
+        val call = apiServices.getPowerstats(superHeroId).execute()
         return call.body()
     }
 }

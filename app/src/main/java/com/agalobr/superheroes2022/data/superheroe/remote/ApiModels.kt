@@ -1,8 +1,6 @@
-package com.agalobr.superheroes2022.data.superheroe
+package com.agalobr.superheroes2022.data.superheroe.remote
 
-import com.google.gson.annotations.SerializedName
-
-data class SuperHeroeApiModel(
+data class SuperHeroApiModel(
     val id: Int,
     val name: String,
     val images: Images
